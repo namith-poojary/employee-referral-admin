@@ -19,8 +19,6 @@ import {
 import navigation from '../../_nav';
 // routes config
 import routes from '../../routes';
-
-const DefaultAside = React.lazy(() => import('./DefaultAside'));
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
@@ -75,7 +73,7 @@ class DefaultLayout extends Component {
           </main>
           <AppAside fixed>
             <Suspense fallback={this.loading()}>
-              <DefaultAside />
+              {/* <DefaultAside /> */}
             </Suspense>
           </AppAside>
         </div>

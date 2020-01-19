@@ -1,60 +1,132 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
+import { Card, CardBody, Col, Row, Table } from 'reactstrap';
+import './users.css'
+import axios from 'axios'
 
-import usersData from './UsersData'
-
-function UserRow(props) {
-  const user = props.user
-  const userLink = `/users/${user.id}`
-
-  const getBadge = (status) => {
-    return status === 'Active' ? 'success' :
-      status === 'Inactive' ? 'secondary' :
-        status === 'Pending' ? 'warning' :
-          status === 'Banned' ? 'danger' :
-            'primary'
-  }
-
-  return (
-    <tr key={user.id.toString()}>
-      <th scope="row"><Link to={userLink}>{user.id}</Link></th>
-      <td><Link to={userLink}>{user.name}</Link></td>
-      <td>{user.registered}</td>
-      <td>{user.role}</td>
-      <td><Link to={userLink}><Badge color={getBadge(user.status)}>{user.status}</Badge></Link></td>
-    </tr>
-  )
-}
 
 class Users extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      posts: [],
+      departments:"",
+      filtered:"",
+    }
+  }
+
+  componentDidMount() {
+
+    this.getPosts()
+   
+
+  }
+  
+
+  getPosts() {
+    const sam =localStorage.getItem('token');
+       
+     const  headers ={
+      
+        "Content-Type": "application/json",
+        "Accept":"*/*",
+        'Authorization':sam
+      }
+      
+ axios.get('https://employee-referals.herokuapp.com/api/users/',{headers})
+     
+
+    
+      .then(res => {
+        // console.log(res)
+          this.setState({
+          posts: res.data,
+          
+         })
+       
+      })
+  }
+
+
+  getId = (e) => {
+    console.log(e._id)
+    const samm =localStorage.getItem('token');
+        
+    const header = {
+      "Content-Type": "application/json",
+        "Accept":"*/*",
+        'Authorization':samm,
+      _id: e._id
+    }
+    const sam = {
+      _id: e._id
+    }
+    axios.post('https://employee-referals.herokuapp.com/api/users/userdelete', {header},sam)
+      .then(res => {
+        // const users = res.data
+        console.log(res)
+        this.getPosts()
+
+
+      })
+  }
+  handleInputChange = event => {
+    this.setState({ filtered: event.target.value });
+  };
+
 
   render() {
 
-    const userList = usersData.filter((user) => user.id < 10)
+    // const userList = this.state.posts
+    const filteredData = this.state.posts.filter(val => {
+      if(this.state.filtered.length){
+        const lowerCaseValue= val["department"].toLowerCase()
+        const lowerCase= val["name"].toLowerCase()
+        const lower= val["role"].toLowerCase()
+         return lowerCaseValue.includes(this.state.filtered.toLowerCase())||lowerCase.includes(this.state.filtered.toLowerCase())||lower.includes(this.state.filtered.toLowerCase())
+      }
+      return true
+    });
 
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col xl={6}>
+          <Col xl={12}>
             <Card>
-              <CardHeader>
-                <i className="fa fa-align-justify"></i> Users <small className="text-muted">example</small>
-              </CardHeader>
+              {/* <CardHeader>
+                <i className="fa fa-align-justify"></i> Users 
+              </CardHeader> */}
               <CardBody>
+                <div className="searchForm">
+              <form>
+          <input
+            id="searchkey"
+            placeholder="Search for..."
+            name="filter"
+            onChange={this.handleInputChange}
+          />
+        </form>
+        </div>
                 <Table responsive hover>
                   <thead>
                     <tr>
-                      <th scope="col">id</th>
-                      <th scope="col">name</th>
-                      <th scope="col">registered</th>
-                      <th scope="col">role</th>
-                      <th scope="col">status</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">E-mail</th>
+                      <th scope="col">Department</th>
+                      <th scope="col">Role</th>
+                      <th scope="col">Phone.No</th>
+                      <th scope="col">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {userList.map((user, index) =>
-                      <UserRow key={index} user={user}/>
+                    {filteredData.map((user) =>
+                      <tr key={user._id}>
+                        <th>{user.name}</th>
+                        <td>{user.email}</td>
+                        <td>{user.department}</td>
+                        <td>{user.role}</td>
+                        <td>{user.phone}</td>
+                        <button className="btn btn-danger" onClick={(e) => { this.getId(user) }}>Delete</button>
+                      </tr>
                     )}
                   </tbody>
                 </Table>

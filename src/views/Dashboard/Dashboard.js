@@ -1,5 +1,7 @@
 import React, { Component, lazy, Suspense } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { Bar, Line } from 'react-chartjs-2';
+
 import {
   Badge,
   Button,
@@ -24,7 +26,7 @@ import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities'
 
 const Widget03 = lazy(() => import('../../views/Widgets/Widget03'));
-
+// const Users = React.lazy(() => import('../../views/Users/Users'));
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
 const brandInfo = getStyle('--info')
@@ -482,6 +484,7 @@ class Dashboard extends Component {
   render() {
 
     return (
+       <BrowserRouter>
       <div className="animated fadeIn">
         <Row>
           <Col xs="12" sm="6" lg="3">
@@ -1122,6 +1125,9 @@ class Dashboard extends Component {
           </Col>
         </Row>
       </div>
+      
+      </BrowserRouter>
+
     );
   }
 }

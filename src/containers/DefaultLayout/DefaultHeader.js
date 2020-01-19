@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Badge, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem } from 'reactstrap';
+import { Nav, NavItem } from 'reactstrap';
 import PropTypes from 'prop-types';
-
-import { AppAsideToggler, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
+import {  AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
 import logo from '../../assets/img/brand/logo.svg'
 import sygnet from '../../assets/img/brand/sygnet.svg'
+import './header.css'
+import axios from 'axios' 
 
 const propTypes = {
   children: PropTypes.node,
@@ -14,9 +15,63 @@ const propTypes = {
 const defaultProps = {};
 
 class DefaultHeader extends Component {
-  render() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal:false,
+    name:' ',
+    salary:{value: 0},
+    email:' ',
+    password:' ',
+    // uid:' ',
+    usertype:' ',
+    phone:{value: 0},
+    department:' ',
+    role:' '
 
-    // eslint-disable-next-line
+  }
+
+    this.toggle = this.toggle.bind(this);
+  }
+
+  toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  }
+  handleChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+  }
+  handleSubmit = (e) => {
+    const one = {
+      name:this.state.name,
+      email:this.state.email,
+      password:this.state.password,
+      // uid:this.state.uid,
+      usertype:this.state.usertype,
+      phone:this.state.phone,
+      department:this.state.department,
+      role:this.state.role,
+      salary:this.state.salary
+     }
+     console.log(one)
+    axios.post('https://employee-referals.herokuapp.com/api/users', one)
+      .then((response) => {
+          if(response){
+            console.log(response)
+       }
+     })
+     .catch((error) => {
+    console.log(error);
+    })
+ 
+    
+ 
+  }
+ 
+  render() {
     const { children, ...attributes } = this.props;
 
     return (
@@ -29,27 +84,89 @@ class DefaultHeader extends Component {
         <AppSidebarToggler className="d-md-down-none" display="lg" />
 
         <Nav className="d-md-down-none" navbar>
-          <NavItem className="px-3">
-            <NavLink to="/dashboard" className="nav-link" >Dashboard</NavLink>
+           <NavItem className="px-3">
+            <NavLink to="/Add" className="nav-link" >ADD</NavLink>
           </NavItem>
           <NavItem className="px-3">
-            <Link to="/users" className="nav-link">Users</Link>
+            <Link to="/resume" className="nav-link">RESUMES</Link>
+          </NavItem>
+          {/* <NavItem className="px-3">
+            <Link to="/manage" className="nav-link">ManageJob</Link>
           </NavItem>
           <NavItem className="px-3">
-            <NavLink to="#" className="nav-link">Settings</NavLink>
-          </NavItem>
+            <Link to="/progress" className="nav-link">ManageReferral</Link>
+          </NavItem>  */}
         </Nav>
         <Nav className="ml-auto" navbar>
           <NavItem className="d-md-down-none">
-            <NavLink to="#" className="nav-link"><i className="icon-bell"></i><Badge pill color="danger">5</Badge></NavLink>
+          
+{/* <button className="cui-people icons font-2xl d-block mt-4"  onClick={this.toggle}>{this.props.buttonLabel}</button>
+            <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+              <ModalHeader toggle={this.toggle}>Add User/Admin</ModalHeader>
+              <ModalBody>
+               <div className="base-container">
+        
+            <div className="content" >
+        <div className="form">
+                 <div className="form-group">
+                  <label>Name       .</label>
+<p><input type="text" id="name" name="name" placeholder="name"   onChange={this.handleChange}/></p>
+                </div>
+                  <div className="form-group">
+                  <label>Email-Id         .</label>
+                  <p><input type="text" id="email" name="email" placeholder="email"  onChange={this.handleChange}  /></p>
+                </div>
+                <div className="form-group">
+                  <label>Password        .</label>
+                  <p> <input type="Password" id="password" name="password" placeholder="password"   onChange={this.handleChange} /></p>
+                </div>
+                {/* <div className="form-group">
+                  <label >UserId.</label>
+                  <input type="text" id="uid" name="uid" placeholder="uid" onChange={this.handleChange} />
+                </div> 
+                <div className="form-group">
+                  <label >Phone      .</label>
+                  <p> <input type="number" id="phone" name="phone" placeholder="phone"  onChange={this.handleChange} /></p>
+                </div>
+                <div className="form-group">
+                  <label>Department       .</label>
+                  <p>  <input type="text" id="department" name="department" placeholder="department"  onChange={this.handleChange}/></p>
+                </div>
+                <div className="form-group">
+                  <label>Role           .</label>
+                  <p>  <input type="text" id="role" name="role" placeholder="role"  onChange={this.handleChange}/></p>
+                </div>
+                <div className="form-group">
+                  <label>Usertype.</label>
+                  <p>  <input type="text" id="usertype" name="usertype" placeholder="usertype"  onChange={this.handleChange}/></p>
+                </div>
+                <div className="form-group">
+                  <label >Salary        .</label>
+                  <p> <input type="number" id="salary" name="salary" placeholder="salary"  onChange={this.handleChange} /></p>
+                </div>
+              </div>
+             </div>
+            </div>
+            </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={this.handleSubmit}>Submit</Button>
+                <Button color="secondary"onClick={this.toggle} >Cancel</Button>
+              </ModalFooter>
+            </Modal>
+            
+           
+ */}
+
+
+
           </NavItem>
-          <NavItem className="d-md-down-none">
-            <NavLink to="#" className="nav-link"><i className="icon-list"></i></NavLink>
-          </NavItem>
-          <NavItem className="d-md-down-none">
+       <NavItem className="d-md-down-none">
+            <i className="cui-account-logout icons font-2xl d-block mt-4"></i>
+          </NavItem> 
+          {/* <NavItem className="d-md-down-none">
             <NavLink to="#" className="nav-link"><i className="icon-location-pin"></i></NavLink>
-          </NavItem>
-          <UncontrolledDropdown nav direction="down">
+          </NavItem> */}
+          {/* <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav>
               <img src={'../../assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
             </DropdownToggle>
@@ -68,9 +185,9 @@ class DefaultHeader extends Component {
               <DropdownItem><i className="fa fa-shield"></i> Lock Account</DropdownItem>
               <DropdownItem onClick={e => this.props.onLogout(e)}><i className="fa fa-lock"></i> Logout</DropdownItem>
             </DropdownMenu>
-          </UncontrolledDropdown>
+          </UncontrolledDropdown> */}
         </Nav>
-        <AppAsideToggler className="d-md-down-none" />
+        {/* <AppAsideToggler className="d-md-down-none" /> */}
         {/*<AppAsideToggler className="d-lg-none" mobile />*/}
       </React.Fragment>
     );
