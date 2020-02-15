@@ -34,15 +34,16 @@ class Resume extends Component {
 
 getPosts() {
   const sam =localStorage.getItem('token');
-  
        
-  const headers= {
-     
-    "Content-Type": "application/json",
-     "Accept":"*/*",
-     "Authorization":sam
- }
-  axios.get('https://employee-referals.herokuapp.com/api/referee/show_referals',{headers})
+     const  headers ={
+      
+        "Content-Type": "application/json",
+        "Accept":"*/*",
+        'Authorization':sam
+      }
+      console.log(sam)
+
+  axios.get('https://employee-referals.herokuapp.com/api/referee/resumes',{headers})
   .then(res => {
       console.log(res)
       this.setState({

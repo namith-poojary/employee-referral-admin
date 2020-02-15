@@ -43,9 +43,10 @@ class progress extends Component {
        "Accept":"*/*",
        "Authorization":sam
    }
-    axios.get('https://employee-referals.herokuapp.com/api/referee/show_referals',{headers})
+    axios.post('https://employee-referals.herokuapp.com/api/referee/show_referals',{headers})
   .then(res => {
-    console.log(res);
+  
+    console.log(sam);
       this.setState({
         isReferred: res.data[0].status.isReferred,
         isAccepted: res.data[0].status.isAccepted,
@@ -173,13 +174,13 @@ class progress extends Component {
     //     _id :this.state.immutablePosts,
     //     status:status
     // }
-    const sam =localStorage.getItem('token');
+    const samm =localStorage.getItem('token');
         
     const headers= {
      
       "Content-Type": "application/json",
        "Accept":"*/*",
-       "Authorization":sam
+       "Authorization":samm
    }
   
      axios.post('https://employee-referals.herokuapp.com/api/referee/update/', {headers},body)

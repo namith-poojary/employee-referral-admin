@@ -7,7 +7,7 @@ import axios from 'axios'
 class Users extends Component {
   constructor(props) {
     super(props)
-    this.state = {
+    this.state = {            
       posts: [],
       departments:"",
       filtered:"",
@@ -60,7 +60,7 @@ class Users extends Component {
     const sam = {
       _id: e._id
     }
-    axios.post('https://employee-referals.herokuapp.com/api/users/userdelete', {header},sam)
+    axios.post('https://employee-referals.herokuapp.com/api/users/userdelete',sam, {headers: header})
       .then(res => {
         // const users = res.data
         console.log(res)

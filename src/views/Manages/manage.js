@@ -132,13 +132,14 @@ class Manage extends Component {
      
        "Content-Type": "application/json",
         "Accept":"*/*",
-        'Authorization':samm
-        
+        'Authorization':samm,
+        _id: e._id
     }
-    const sam={
+    const da={
       _id: e._id
     }
-    axios.post('https://employee-referals.herokuapp.com/api/job/jobdelete',{headers},sam)
+    console.log(da)
+    axios.post('https://employee-referals.herokuapp.com/api/job/jobdelete',da, {headers: headers})
       .then(res => {
         
         console.log(res)

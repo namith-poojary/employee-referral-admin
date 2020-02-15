@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
 import Button from 'react-bootstrap/Button'
 
 // import './progress.css'
@@ -57,8 +56,8 @@ class Add extends Component {
        "Accept":"*/*",
        "Authorization":sam
    }
-    
-    console.log(one)
+ 
+    // console.log(one)
     axios.post('https://employee-referals.herokuapp.com/api/users',{headers},one)
       .then((response) => {
         if (response) {
