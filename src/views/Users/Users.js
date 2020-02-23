@@ -28,11 +28,11 @@ class Users extends Component {
      const  headers ={
       
         "Content-Type": "application/json",
-        "Accept":"*/*",
+        // "Accept":"*/*",
         'Authorization':sam
       }
       
- axios.get('https://employee-referals.herokuapp.com/api/users/',{headers})
+ axios.get('http://localhost:4002/api/users/',{headers:headers })
      
 
     
@@ -51,16 +51,22 @@ class Users extends Component {
     console.log(e._id)
     const samm =localStorage.getItem('token');
         
-    const header = {
-      "Content-Type": "application/json",
-        "Accept":"*/*",
-        'Authorization':samm,
-      _id: e._id
+    
+    const options={
+      url:'http://localhost:4002/api/users/userdelete',
+      method:'POST',
+      headers:{
+       'Content-Type': 'application/json',
+        'Authorization':samm
+      },
+      data:{
+        _id: e._id
+      }
     }
     const sam = {
       _id: e._id
     }
-    axios.post('https://employee-referals.herokuapp.com/api/users/userdelete',sam, {headers: header})
+    axios(options)
       .then(res => {
         // const users = res.data
         console.log(res)

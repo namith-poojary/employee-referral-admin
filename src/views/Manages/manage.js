@@ -49,11 +49,11 @@ class Manage extends Component {
     const  headers ={
       
       "Content-Type": "application/json",
-      "Accept":"*/*",
+      // "Accept":"*/*",
       'Authorization':sam 
     }
   
-    axios.get('https://employee-referals.herokuapp.com/api/job/',{headers})
+    axios.get('http://localhost:4002/api/job/adminjob/',{headers})
       .then(res => {
         this.setState({
           posts: res.data,
@@ -66,18 +66,31 @@ class Manage extends Component {
         console.log(error);
       });
   }
+
+
+  //add job
   addPosts(postObject) {
     const sam =localStorage.getItem('token');
         
+    const options={
+      url:'http://localhost:4002/api/job',
+      method:'POST',
+      headers:{
+       'Content-Type': 'application/json',
+        'Authorization':sam
+      },
+      data:postObject
+     
+    }
     const  headers ={
       
       "Content-Type": "application/json",
-      "Accept":"*/*",
+      // "Accept":"*/*",
       'Authorization':sam 
     }
     console.log(postObject)
     
-    axios.post('https://employee-referals.herokuapp.com/api/job',{headers}, postObject)
+    axios(options)
       .then((response) => {
         if (response) {
           this.getPosts()
@@ -123,23 +136,34 @@ class Manage extends Component {
   
 
   }
+
+  //delete post
   getId = (e) => {
     console.log(e._id)
     const samm =localStorage.getItem('token');
     
        
     const headers= {
-     
+      "Accept":"*/*",
        "Content-Type": "application/json",
-        "Accept":"*/*",
+        // "Accept":"*/*",
         'Authorization':samm,
+        
+    }
+    const options={
+      url:'http://localhost:4002/api/job/jobdelete',
+      method:'POST',
+      headers:{
+       'Content-Type': 'application/json',
+        'Authorization':samm
+      },
+      data:{
         _id: e._id
+      }
     }
-    const da={
-      _id: e._id
-    }
-    console.log(da)
-    axios.post('https://employee-referals.herokuapp.com/api/job/jobdelete',da, {headers: headers})
+    console.log(options)
+ 
+    axios(options)
       .then(res => {
         
         console.log(res)

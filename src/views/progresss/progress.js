@@ -43,7 +43,7 @@ class progress extends Component {
        "Accept":"*/*",
        "Authorization":sam
    }
-    axios.post('https://employee-referals.herokuapp.com/api/referee/show_referals',{headers})
+    axios.get('http://localhost:4002/api/referee/show_referals',{headers})
   .then(res => {
   
     console.log(sam);
@@ -67,9 +67,9 @@ class progress extends Component {
 
 
   onCheckChange(e,index) {
-    console.log(index);
-   console.log(e.target.value)
-   console.log(e.target.id)
+  //   console.log(index);
+  //  console.log(e.target.value)
+  //  console.log(e.target.id)
    
    const value=true
    const [x] =[e.target.id]
@@ -156,7 +156,7 @@ class progress extends Component {
 
     
      
-   console.log(this.state.immutablePosts)
+  // console.log(this.state.immutablePosts)
    // console.log(imPosts);
    
   }
@@ -164,26 +164,40 @@ class progress extends Component {
 
   handleSubmit = (e,post,index) => {
     e.preventDefault();
-    console.log(e)
-    //console.log(post)
-    console.log(index)
+    // console.log(e)
+    // //console.log(post)
+    // console.log(index)
     
    
-    const body=this.state.immutablePosts[index]    
-    // const data={
-    //     _id :this.state.immutablePosts,
-    //     status:status
-    // }
+    const body=this.state.immutablePosts[index]
+    //console.log(body)  
+    const data={
+        _id :this.state.immutablePosts[index]._id,
+        status:this.state.immutablePosts[index].status
+    }
     const samm =localStorage.getItem('token');
         
-    const headers= {
+  //   const headers= {
      
-      "Content-Type": "application/json",
-       "Accept":"*/*",
-       "Authorization":samm
-   }
+  //     "Content-Type": "application/json",
+  //      "Accept":"*/*",
+  //      "Authorization":samm
+  //  }
+   const options={
+    url:'http://localhost:4002/api/referee/update/',
+    method:'POST',
+    headers:{
+     'Content-Type': 'application/json',
+      'Authorization':samm
+    },
+    data:{
+      _id :this.state.immutablePosts[index]._id,
+        status:this.state.immutablePosts[index].status
+    }
+  }
+   
   
-     axios.post('https://employee-referals.herokuapp.com/api/referee/update/', {headers},body)
+     axios(options)
           .then(res => console.log(res));
         alert("Updated for "+body.name)
         }

@@ -50,15 +50,31 @@ class Add extends Component {
     const sam =localStorage.getItem('token');
     console.log(sam);
         
-    const headers= {
-     
-      "Content-Type": "application/json",
-       "Accept":"*/*",
-       "Authorization":sam
+
+
+   const options={
+     url:'http://localhost:4002/api/users',
+     method:'POST',
+     headers:{
+      'Content-Type': 'application/json',
+       'Authorization':sam
+     },
+     data:{
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+      usertype: this.state.usertype,
+      phone: parseInt(this.state.phone),
+      department: this.state.department,
+      role: this.state.role,
+      salary: parseInt(this.state.salary)
+
+     }
    }
+   console.log(options)
  
     // console.log(one)
-    axios.post('https://employee-referals.herokuapp.com/api/users',{headers},one)
+    axios(options)
       .then((response) => {
         if (response) {
           console.log(response)
@@ -77,7 +93,7 @@ class Add extends Component {
 
     return (
       <div>
-<h3>Add Admine/Employee</h3>
+<h3>Add Admin/Employee</h3>
         <div className="base-container">
 
           <div className="content" >
