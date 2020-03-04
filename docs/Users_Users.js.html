@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Users/Users.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Users/Users.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * User Module
+ * @module Users
+ */
+
+import React, { Component } from 'react';
+import { Card, CardBody, Col, Row, Table } from 'reactstrap';
+import './users.css'
+import axios from 'axios'
+
+/**
+ * class Users
+ */
+class Users extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {            
+      posts: [],
+      departments:"",
+      filtered:"",
+    }
+  }
+
+  componentDidMount() {
+
+    this.getPosts()
+   
+
+  }
+  
+/**
+ * @property {Function} getPosts lists all the users with their department
+ */
+  getPosts() {
+    const sam =localStorage.getItem('token');
+       
+     const  headers ={
+      
+        "Content-Type": "application/json",
+        // "Accept":"*/*",
+        'Authorization':sam
+      }
+      
+ axios.get('http://localhost:4002/api/users/',{headers:headers })
+     
+
+    
+      .then(res => {
+        // console.log(res)
+          this.setState({
+          posts: res.data,
+          
+         })
+       
+      })
+  }
+/**
+ * @property {Function} getId deletes the user with the help of id
+ */
+
+  getId = (e) => {
+    console.log(e._id)
+    const samm =localStorage.getItem('token');
+        
+    
+    const options={
+      url:'http://localhost:4002/api/users/userdelete',
+      method:'POST',
+      headers:{
+       'Content-Type': 'application/json',
+        'Authorization':samm
+      },
+      data:{
+        _id: e._id
+      }
+    }
+    const sam = {
+      _id: e._id
+    }
+    axios(options)
+      .then(res => {
+        // const users = res.data
+        console.log(res)
+        this.getPosts()
+
+
+      })
+  }
+  handleInputChange = event => {
+    this.setState({ filtered: event.target.value });
+  };
+
+
+  render() {
+
+    // const userList = this.state.posts
+    const filteredData = this.state.posts.filter(val => {
+      if(this.state.filtered.length){
+        const lowerCaseValue= val["department"].toLowerCase()
+        const lowerCase= val["name"].toLowerCase()
+        const lower= val["role"].toLowerCase()
+         return lowerCaseValue.includes(this.state.filtered.toLowerCase())||lowerCase.includes(this.state.filtered.toLowerCase())||lower.includes(this.state.filtered.toLowerCase())
+      }
+      return true
+    });
+
+    return (
+      &lt;div className="animated fadeIn">
+        &lt;Row>
+          &lt;Col xl={12}>
+            &lt;Card>
+              {/* &lt;CardHeader>
+                &lt;i className="fa fa-align-justify">&lt;/i> Users 
+              &lt;/CardHeader> */}
+              &lt;CardBody>
+                &lt;div className="searchForm">
+              &lt;form>
+          &lt;input
+            id="searchkey"
+            placeholder="Search for..."
+            name="filter"
+            onChange={this.handleInputChange}
+          />
+        &lt;/form>
+        &lt;/div>
+                &lt;Table responsive hover>
+                  &lt;thead>
+                    &lt;tr>
+                      &lt;th scope="col">Name&lt;/th>
+                      &lt;th scope="col">E-mail&lt;/th>
+                      &lt;th scope="col">Department&lt;/th>
+                      &lt;th scope="col">Role&lt;/th>
+                      &lt;th scope="col">Phone.No&lt;/th>
+                      &lt;th scope="col">Delete&lt;/th>
+                    &lt;/tr>
+                  &lt;/thead>
+                  &lt;tbody>
+                    {filteredData.map((user) =>
+                      &lt;tr key={user._id}>
+                        &lt;th>{user.name}&lt;/th>
+                        &lt;td>{user.email}&lt;/td>
+                        &lt;td>{user.department}&lt;/td>
+                        &lt;td>{user.role}&lt;/td>
+                        &lt;td>{user.phone}&lt;/td>
+                        &lt;button className="btn btn-danger" onClick={(e) => { this.getId(user) }}>Delete&lt;/button>
+                      &lt;/tr>
+                    )}
+                  &lt;/tbody>
+                &lt;/Table>
+              &lt;/CardBody>
+            &lt;/Card>
+          &lt;/Col>
+        &lt;/Row>
+      &lt;/div>
+    )
+  }
+}
+
+export default Users;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Add.html">Add</a></li><li><a href="module-login.html">login</a></li><li><a href="module-Manage.html">Manage</a></li><li><a href="module-progress.html">progress</a></li><li><a href="module-resumes.html">resumes</a></li><li><a href="module-Users.html">Users</a></li></ul><h3>Classes</h3><ul><li><a href="module-Add-Add.html">Add</a></li><li><a href="module-login.html">login</a></li><li><a href="module-Manage-Manage.html">Manage</a></li><li><a href="module-progress-progress.html">progress</a></li><li><a href="module-resumes-Resume.html">Resume</a></li><li><a href="module-Users-Users.html">Users</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Feb 23 2020 17:25:15 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

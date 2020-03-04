@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: views/Manages/manage.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: views/Manages/manage.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Module to add job,view and delete job
+ * @module Manage
+ */
+
+
+import React, { Component } from 'react';
+import {
+  Card, CardBody, Col, Row, Table, Button, 
+ Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import axios from 'axios'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './manage.css'
+
+
+/**
+ * class which is used to manage all the jobs
+ */
+class Manage extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      posts: [],
+      model: false,
+      role: '',
+      qualification: '',
+      salary: { value: 0 },
+      department: '',
+      experience: '',
+      con: true,
+      referalbonus: { value: 0 },
+      filterer:"",
+      
+ 
+ 
+
+    }
+    this.toggle = this.toggle.bind(this);
+    this.toggles = this.toggles.bind(this);
+    
+  }
+  componentDidMount() {
+
+    this.getPosts()
+
+    
+  }
+  toggles(i) {
+    const newArray = this.state.dropdownOpen.map((element, index) => { return (index === i ? !element : false); });
+    this.setState({
+      dropdownOpen: newArray,
+    });
+  }
+  /**
+   * 
+   * @property {Function} getPosts gets the header details for that admin
+   */
+  getPosts() {
+    const sam =localStorage.getItem('token');
+        
+    const  headers ={
+      
+      "Content-Type": "application/json",
+      // "Accept":"*/*",
+      'Authorization':sam 
+    }
+  
+    axios.get('http://localhost:4002/api/job/adminjob/',{headers})
+      .then(res => {
+        this.setState({
+          posts: res.data,
+      
+        })
+        
+        console.log(res)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+
+  //add job
+  /**
+   * 
+   * @param {Object} postObject contains all the details of the job
+   * @property {Function} addPosts adds the job
+   */
+  addPosts(postObject) {
+    const sam =localStorage.getItem('token');
+        
+    const options={
+      url:'http://localhost:4002/api/job',
+      method:'POST',
+      headers:{
+       'Content-Type': 'application/json',
+        'Authorization':sam
+      },
+      data:postObject
+     
+    }
+    const  headers ={
+      
+      "Content-Type": "application/json",
+      // "Accept":"*/*",
+      'Authorization':sam 
+    }
+    console.log(postObject)
+    
+    axios(options)
+      .then((response) => {
+        if (response) {
+          this.getPosts()
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+  toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  }
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.type === 'number' ? parseInt(e.target.value) : e.target.value
+    });
+  }
+  handleSubmit = (e) => {
+    
+   
+    // if (this.state.department == test)   //test is token to be taken from login data
+    // {
+      const one = {
+      role: this.state.role,
+      qualification: this.state.qualification,
+      salary: this.state.salary,
+      department: this.state.department,
+      experience: this.state.experience,
+      referalbonus: this.state.referalbonus,
+    }
+    this.addPosts(one)
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  // }
+  // else{
+  //   window.alert("cannot add job to this department");
+  // }
+    
+  
+  
+
+  }
+/**
+ * 
+ * deletes the job with the help of ID
+ */
+  //delete post
+  getId = (e) => {
+    console.log(e._id)
+    const samm =localStorage.getItem('token');
+    
+       
+    const headers= {
+      "Accept":"*/*",
+       "Content-Type": "application/json",
+        // "Accept":"*/*",
+        'Authorization':samm,
+        
+    }
+    const options={
+      url:'http://localhost:4002/api/job/jobdelete',
+      method:'POST',
+      headers:{
+       'Content-Type': 'application/json',
+        'Authorization':samm
+      },
+      data:{
+        _id: e._id
+      }
+    }
+    console.log(options)
+ 
+    axios(options)
+      .then(res => {
+        
+        console.log(res)
+        this.getPosts()
+
+
+      })
+  }
+ 
+  // handleInputChange = (e) => {
+  //    this.setState({ [e.target.id]: e.target.value })
+  //   }  
+
+  //   handleSubmits = (e) => {
+  //    // e.preventDefault();
+  //     const body = {
+  //       search: this.state.searchkey
+  //     }
+  //    console.log(body)
+  //     axios.post('https://employee-referals.herokuapp.com/api/job/search',body)
+  //     .then(res => {
+  //         this.setState({
+  //         posts: res.data.data
+  //        })
+        
+  //        //console.log(this.state.posts)
+  //        console.log(res)
+
+  //       })
+
+  //   }
+  handleInputChange = event => {
+    this.setState({ filterer: event.target.value });
+  };
+
+  
+
+render() {
+   const filteredData = this.state.posts.filter(val => {
+      if(this.state.filterer.length){
+        const lowerCaseValue= val["department" ].toLowerCase()
+        const lower=val["qualification"].toLowerCase()
+        const lowers= val["role"].toLowerCase()
+      return (lowerCaseValue.includes(this.state.filterer.toLowerCase()) || lower.includes(this.state.filterer.toLowerCase()) ||lowers.includes(this.state.filterer.toLowerCase()))
+      
+      }
+    
+      return true
+    });
+
+    
+     return (
+      &lt;div>
+      &lt;div className="animated fadeIn">
+        &lt;Row>
+          &lt;Col xs="12">
+            &lt;Card>
+               &lt;CardBody>
+              &lt;div className="searchForm">
+        &lt;form>
+          &lt;input
+            id="searchkey"
+            placeholder="Search for..."
+            name="filter"
+            onChange={this.handleInputChange}
+          />
+        &lt;/form>
+        {/* &lt;Button onClick={this.handleSubmits}>&lt;/Button> */}
+        {/* &lt;div>{this.state.filteredData.map(e => &lt;p>{e.name}&lt;/p>)}&lt;/div> */}
+      &lt;/div>
+              &lt;/CardBody>
+            &lt;/Card>
+            &lt;/Col>
+            &lt;/Row>
+            &lt;/div>
+        &lt;div className="animated fadeIn">
+          &lt;Row>
+            &lt;Col xl={12} >
+              &lt;Card>
+                {/* &lt;CardHeader>
+                  &lt;i className="fa fa-align-justify">&lt;/i> Users &lt;small className="text-muted">example&lt;/small>
+                &lt;/CardHeader> */}
+                &lt;CardBody>
+                  &lt;Table responsive hover>
+                    &lt;thead>
+                      &lt;tr>
+                      &lt;th scope="col">Role&lt;/th>
+                        &lt;th scope="col">Qualification&lt;/th>
+                        &lt;th scope="col">Department&lt;/th>
+                        &lt;th scope="col">Experience&lt;/th>
+                        &lt;th scope="col">Salary&lt;/th>
+                        &lt;th scope="col">ReferalBonus&lt;/th>
+                        &lt;th scope="col">Delete&lt;/th>
+                      &lt;/tr>
+                    &lt;/thead>
+                    &lt;tbody>
+                      {filteredData.map((user, index) =>
+                        &lt;tr key={user._id}>
+                        &lt;th>{user.role}&lt;/th>
+                          &lt;th>{user.qualification}&lt;/th>
+                          &lt;td>{user.department}&lt;/td>
+                          &lt;td>{user.experience}&lt;/td>
+                          &lt;td>{user.salary}&lt;/td>
+                          &lt;td>{user.referalbonus}&lt;/td>
+                          &lt;button className="btn btn-danger" onClick={(e) => { this.getId(user) }}>Delete&lt;/button>
+                        &lt;/tr>
+                      )}
+                    &lt;/tbody>
+                  &lt;/Table>
+                &lt;/CardBody>
+              &lt;/Card>
+            &lt;/Col>
+          &lt;/Row>
+        &lt;/div>
+
+        &lt;div className="but">
+          &lt;Button className="Button" onClick={this.toggle}>{this.props.buttonLabel}ADD&lt;/Button>
+          &lt;Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+            &lt;ModalHeader toggle={this.toggle}>ADD JOB&lt;/ModalHeader>
+            &lt;ModalBody>
+              &lt;div className="base-container">
+              &lt;div className="content" >
+                  &lt;div className="form">
+                    &lt;div className="form-group">
+                      &lt;label htmlFor="empid">Role    .&lt;/label>
+                      &lt;input type="text" id="role" name="role" placeholder="role" onChange={this.handleChange} />
+                    &lt;/div>
+                    &lt;div className="form-group">
+                      &lt;label htmlFor="empid">Qualification.&lt;/label>
+                      &lt;input type="text" id="qualification" name="qualification" placeholder="qualification" onChange={this.handleChange} />
+                    &lt;/div>
+                    &lt;div className="form-group">
+                      &lt;label htmlFor="username">Salary.&lt;/label>
+                      &lt;input type="number" id="salary" name="salary" placeholder="salary" onChange={this.handleChange} />
+                    &lt;/div>
+                    &lt;div className="form-group">
+                      &lt;label htmlFor="email">Department.&lt;/label>
+                      &lt;input type="text" id="department" name="department" placeholder="department" onChange={this.handleChange} />
+                    &lt;/div>
+                    &lt;div className="form-group">
+                      &lt;label htmlFor="password">Experience.&lt;/label>
+                      &lt;input type="text" id="experience" name="experience" placeholder="experience" onChange={this.handleChange} />
+                    &lt;/div>
+                    &lt;div className="form-group">
+                      &lt;label htmlFor="phone">ReferalBonus.&lt;/label>
+                      &lt;input type="number" id="referalbonus" name="referalbonus" placeholder="referalbonus" onChange={this.handleChange} />
+                    &lt;/div>
+
+                 &lt;/div> 
+                &lt;/div>
+              &lt;/div>
+            &lt;/ModalBody>
+            &lt;ModalFooter>
+              &lt;Button color="primary" onClick={this.handleSubmit} >Submit&lt;/Button>
+              &lt;Button color="secondary" onClick={this.toggle}>Cancel&lt;/Button>
+            &lt;/ModalFooter>
+          &lt;/Modal>
+         &lt;/div>
+&lt;/div>
+
+
+        )
+      }
+    }
+    
+    export default Manage;
+    </code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Add.html">Add</a></li><li><a href="module-App.html">App</a></li><li><a href="module-index.html">index</a></li><li><a href="module-login.html">login</a></li><li><a href="module-Manage.html">Manage</a></li><li><a href="module-progress.html">progress</a></li><li><a href="module-resumes.html">resumes</a></li><li><a href="module-Users.html">Users</a></li></ul><h3>Classes</h3><ul><li><a href="module-Add-Add.html">Add</a></li><li><a href="module-login.html">login</a></li><li><a href="module-Manage-Manage.html">Manage</a></li><li><a href="module-progress-progress.html">progress</a></li><li><a href="module-resumes-Resume.html">Resume</a></li><li><a href="module-Users-Users.html">Users</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Feb 23 2020 17:26:32 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

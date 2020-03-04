@@ -1,3 +1,8 @@
+/**
+ * Resume module
+ * @module resumes
+ */
+
 import React, { Component } from 'react';
 
 import {  Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
@@ -10,7 +15,9 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-
+/**
+ * class Resume
+ */
 
 
 class Resume extends Component {
@@ -31,7 +38,9 @@ class Resume extends Component {
     this.getPosts()
    
 }
-
+/**
+ * @property {Function} getPosts lists all the resumes 
+ */
 getPosts() {
   const sam =localStorage.getItem('token');
        

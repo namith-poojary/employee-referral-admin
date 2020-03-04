@@ -1,3 +1,9 @@
+/**
+ * Module to add job,view and delete job
+ * @module Manage
+ */
+
+
 import React, { Component } from 'react';
 import {
   Card, CardBody, Col, Row, Table, Button, 
@@ -7,7 +13,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './manage.css'
 
 
-
+/**
+ * class which is used to manage all the jobs
+ */
 class Manage extends Component {
   constructor(props) {
     super(props)
@@ -43,6 +51,10 @@ class Manage extends Component {
       dropdownOpen: newArray,
     });
   }
+  /**
+   * 
+   * @property {Function} getPosts gets the header details for that admin
+   */
   getPosts() {
     const sam =localStorage.getItem('token');
         
@@ -53,7 +65,7 @@ class Manage extends Component {
       'Authorization':sam 
     }
   
-    axios.get('http://localhost:4002/api/job/adminjob/',{headers})
+    axios.get('https://employee-referals.herokuapp.com/api/job/adminjob/',{headers})
       .then(res => {
         this.setState({
           posts: res.data,
@@ -69,11 +81,16 @@ class Manage extends Component {
 
 
   //add job
+  /**
+   * 
+   * @param {Object} postObject contains all the details of the job
+   * @property {Function} addPosts adds the job
+   */
   addPosts(postObject) {
     const sam =localStorage.getItem('token');
         
     const options={
-      url:'http://localhost:4002/api/job',
+      url:'https://employee-referals.herokuapp.com/api/job',
       method:'POST',
       headers:{
        'Content-Type': 'application/json',
@@ -136,7 +153,10 @@ class Manage extends Component {
   
 
   }
-
+/**
+ * 
+ * deletes the job with the help of ID
+ */
   //delete post
   getId = (e) => {
     console.log(e._id)
@@ -151,7 +171,7 @@ class Manage extends Component {
         
     }
     const options={
-      url:'http://localhost:4002/api/job/jobdelete',
+      url:'https://employee-referals.herokuapp.com/api/job/jobdelete',
       method:'POST',
       headers:{
        'Content-Type': 'application/json',

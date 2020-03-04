@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: views/progresss/progress.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: views/progresss/progress.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * Progress module to view and update progress
  * @module progress
  */
@@ -52,7 +80,7 @@ class progress extends Component {
        "Accept":"*/*",
        "Authorization":sam
    }
-    axios.get('https://employee-referals.herokuapp.com/api/referee/show_referals',{headers})
+    axios.get('http://localhost:4002/api/referee/show_referals',{headers})
   .then(res => {
   
     console.log(sam);
@@ -197,7 +225,7 @@ class progress extends Component {
   //      "Authorization":samm
   //  }
    const options={
-    url:'https://employee-referals.herokuapp.com/api/referee/update/',
+    url:'http://localhost:4002/api/referee/update/',
     method:'POST',
     headers:{
      'Content-Type': 'application/json',
@@ -223,39 +251,39 @@ class progress extends Component {
 
    
    return(
-<Card className="ram" style={{ width:'100%'}}>
-     <Card.Body>
-       <div className="sam">
-   <h2>{post.qualification}</h2>
-   <h1>{(post.name).slice(0,10)}</h1> 
+&lt;Card className="ram" style={{ width:'100%'}}>
+     &lt;Card.Body>
+       &lt;div className="sam">
+   &lt;h2>{post.qualification}&lt;/h2>
+   &lt;h1>{(post.name).slice(0,10)}&lt;/h1> 
    
-   </div>
+   &lt;/div>
 
-  <form onSubmit={(e)=>{this.handleSubmit(e,post,index)}}>
-    <p>
-      <label>
-  <input  type="checkbox" name="isReferred" id="isReferred"
-  checked={post.status.isReferred} onChange={(e)=>{this.onCheckChange(e,index)}}/><span>Referred</span></label>
-  <label><input type="checkbox" name="isAccepted" id="isAccepted"
+  &lt;form onSubmit={(e)=>{this.handleSubmit(e,post,index)}}>
+    &lt;p>
+      &lt;label>
+  &lt;input  type="checkbox" name="isReferred" id="isReferred"
+  checked={post.status.isReferred} onChange={(e)=>{this.onCheckChange(e,index)}}/>&lt;span>Referred&lt;/span>&lt;/label>
+  &lt;label>&lt;input type="checkbox" name="isAccepted" id="isAccepted"
 
-  checked={post.status.isAccepted} onChange={(e)=>{this.onCheckChange(e,index)}}/><span>Accepted</span></label>
-  <label><input  type="checkbox" name="isInterviewed" id="isInterviewed"
-  checked={post.status.isInterviewed} onChange={(e)=>{this.onCheckChange(e,index)}}/><span>Interviewing</span></label>
-  <label><input  type="checkbox" name="isHired" id="isHired"
-  checked={post.status.isHired} onChange={(e)=>{this.onCheckChange(e,index)}}/><span>Hired</span></label>
-  <label><input  type="checkbox" name="notHired" id="notHired"
-  checked={post.status.notHired} onChange={(e)=>{this.onCheckChange(e,index)}}/><span>Not Hired</span></label>
-<br></br>
-<p className="ok">
-  <Button  variant="primary" size="lg" className='offset-md-4'  type="submit" className="btn btn-danger">
+  checked={post.status.isAccepted} onChange={(e)=>{this.onCheckChange(e,index)}}/>&lt;span>Accepted&lt;/span>&lt;/label>
+  &lt;label>&lt;input  type="checkbox" name="isInterviewed" id="isInterviewed"
+  checked={post.status.isInterviewed} onChange={(e)=>{this.onCheckChange(e,index)}}/>&lt;span>Interviewing&lt;/span>&lt;/label>
+  &lt;label>&lt;input  type="checkbox" name="isHired" id="isHired"
+  checked={post.status.isHired} onChange={(e)=>{this.onCheckChange(e,index)}}/>&lt;span>Hired&lt;/span>&lt;/label>
+  &lt;label>&lt;input  type="checkbox" name="notHired" id="notHired"
+  checked={post.status.notHired} onChange={(e)=>{this.onCheckChange(e,index)}}/>&lt;span>Not Hired&lt;/span>&lt;/label>
+&lt;br>&lt;/br>
+&lt;p className="ok">
+  &lt;Button  variant="primary" size="lg" className='offset-md-4'  type="submit" className="btn btn-danger">
             Submit
-          </Button>
-          </p>
-    </p>
-  </form>
+          &lt;/Button>
+          &lt;/p>
+    &lt;/p>
+  &lt;/form>
   
-</Card.Body>
-</Card>
+&lt;/Card.Body>
+&lt;/Card>
    )
  })
  
@@ -267,3 +295,26 @@ class progress extends Component {
 }
 
 export default progress;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Add.html">Add</a></li><li><a href="module-App.html">App</a></li><li><a href="module-index.html">index</a></li><li><a href="module-login.html">login</a></li><li><a href="module-Manage.html">Manage</a></li><li><a href="module-progress.html">progress</a></li><li><a href="module-resumes.html">resumes</a></li><li><a href="module-Users.html">Users</a></li></ul><h3>Classes</h3><ul><li><a href="module-Add-Add.html">Add</a></li><li><a href="module-login.html">login</a></li><li><a href="module-Manage-Manage.html">Manage</a></li><li><a href="module-progress-progress.html">progress</a></li><li><a href="module-resumes-Resume.html">Resume</a></li><li><a href="module-Users-Users.html">Users</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Feb 23 2020 17:26:32 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

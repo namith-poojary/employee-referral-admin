@@ -1,9 +1,16 @@
+/**
+ * User Module
+ * @module Users
+ */
+
 import React, { Component } from 'react';
 import { Card, CardBody, Col, Row, Table } from 'reactstrap';
 import './users.css'
 import axios from 'axios'
 
-
+/**
+ * class Users
+ */
 class Users extends Component {
   constructor(props) {
     super(props)
@@ -21,7 +28,9 @@ class Users extends Component {
 
   }
   
-
+/**
+ * @property {Function} getPosts lists all the users with their department
+ */
   getPosts() {
     const sam =localStorage.getItem('token');
        
@@ -32,7 +41,7 @@ class Users extends Component {
         'Authorization':sam
       }
       
- axios.get('http://localhost:4002/api/users/',{headers:headers })
+ axios.get('https://employee-referals.herokuapp.com/api/users/',{headers:headers })
      
 
     
@@ -45,7 +54,9 @@ class Users extends Component {
        
       })
   }
-
+/**
+ * @property {Function} getId deletes the user with the help of id
+ */
 
   getId = (e) => {
     console.log(e._id)
@@ -53,7 +64,7 @@ class Users extends Component {
         
     
     const options={
-      url:'http://localhost:4002/api/users/userdelete',
+      url:'https://employee-referals.herokuapp.com/api/users/userdelete',
       method:'POST',
       headers:{
        'Content-Type': 'application/json',

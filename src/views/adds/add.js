@@ -1,9 +1,17 @@
+/**
+ * Adds Admin or Employee
+ * @module Add
+ */
+
+
 import React, { Component } from 'react';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button'
 
 // import './progress.css'
-
+/**
+ * Class to add admin or employee
+ */
 class Add extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +41,9 @@ class Add extends Component {
       [e.target.id]: e.target.value
     });
   }
-  
+  /**
+   * @property {Function} handleSubmit runs on submit
+   */
   
   handleSubmit = (e) => {
     const one = {
@@ -53,7 +63,7 @@ class Add extends Component {
 
 
    const options={
-     url:'http://localhost:4002/api/users',
+     url:'https://employee-referals.herokuapp.com/api/users',
      method:'POST',
      headers:{
       'Content-Type': 'application/json',

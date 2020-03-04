@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: adds/add.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: adds/add.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Adds Admin or Employee
+ * @module Add
+ */
+
+
+import React, { Component } from 'react';
+import axios from 'axios';
+import Button from 'react-bootstrap/Button'
+
+// import './progress.css'
+/**
+ * Class to add admin or employee
+ */
+class Add extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal: false,
+      name: ' ',
+      salary: { value: 0 },
+      email: ' ',
+      password: ' ',
+      usertype: ' ',
+      phone: { value: 0 },
+      department: ' ',
+      role: ' ',
+
+    }
+
+    this.toggle = this.toggle.bind(this);
+  }
+
+  toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  }
+  handleChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+  }
+  /**
+   * @property {Function} handleSubmit runs on submit
+   */
+  
+  handleSubmit = (e) => {
+    const one = {
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+      usertype: this.state.usertype,
+      phone: this.state.phone,
+      department: this.state.department,
+      role: this.state.role,
+      salary: this.state.salary
+    }
+   
+    const sam =localStorage.getItem('token');
+    console.log(sam);
+        
+
+
+   const options={
+     url:'http://localhost:4002/api/users',
+     method:'POST',
+     headers:{
+      'Content-Type': 'application/json',
+       'Authorization':sam
+     },
+     data:{
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+      usertype: this.state.usertype,
+      phone: parseInt(this.state.phone),
+      department: this.state.department,
+      role: this.state.role,
+      salary: parseInt(this.state.salary)
+
+     }
+   }
+   console.log(options)
+ 
+    // console.log(one)
+    axios(options)
+      .then((response) => {
+        if (response) {
+          console.log(response)
+          alert("added")
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        
+      })
+
+
+
+  }
+  render() {
+
+    return (
+      &lt;div>
+&lt;h3>Add Admin/Employee&lt;/h3>
+        &lt;div className="base-container">
+
+          &lt;div className="content" >
+            &lt;div className="form">
+              &lt;div className="form-group">
+                &lt;label>Name       .&lt;/label>
+                &lt;p>&lt;input type="text" id="name" name="name" placeholder="name" onChange={this.handleChange} />&lt;/p>
+              &lt;/div>
+              &lt;div className="form-group">
+                &lt;label>Email-Id         .&lt;/label>
+                &lt;p>&lt;input type="text" id="email" name="email" placeholder="email" onChange={this.handleChange} />&lt;/p>
+              &lt;/div>
+              &lt;div className="form-group">
+                &lt;label>Password        .&lt;/label>
+                &lt;p> &lt;input type="Password" id="password" name="password" placeholder="password" onChange={this.handleChange} />&lt;/p>
+              &lt;/div>
+
+              &lt;div className="form-group">
+                &lt;label >Phone      .&lt;/label>
+                &lt;p> &lt;input type="number" id="phone" name="phone" placeholder="phone" onChange={this.handleChange} />&lt;/p>
+              &lt;/div>
+              &lt;div className="form-group">
+                &lt;label>Department       .&lt;/label>
+                &lt;p>  &lt;input type="text" id="department" name="department" placeholder="department" onChange={this.handleChange} />&lt;/p>
+              &lt;/div>
+              &lt;div className="form-group">
+                &lt;label>Role           .&lt;/label>
+                &lt;p>  &lt;input type="text" id="role" name="role" placeholder="role" onChange={this.handleChange} />&lt;/p>
+              &lt;/div>
+              &lt;div className="form-group">
+                &lt;label>Usertype.&lt;/label>
+                &lt;p>  &lt;input type="text" id="usertype" name="usertype" placeholder="usertype" onChange={this.handleChange} />&lt;/p>
+              &lt;/div>
+              &lt;div className="form-group">
+                &lt;label >Salary        .&lt;/label>
+                &lt;p> &lt;input type="number" id="salary" name="salary" placeholder="salary" onChange={this.handleChange} />&lt;/p>
+              &lt;/div>
+            &lt;/div>
+          &lt;/div>
+        &lt;/div>
+
+        &lt;Button  color="primary" onClick={this.handleSubmit}>Submit&lt;/Button>
+
+
+      &lt;/div>
+
+
+
+    )
+  }
+}
+
+export default Add;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Add.html">Add</a></li><li><a href="module-login.html">login</a></li><li><a href="module-Manage.html">Manage</a></li><li><a href="module-progress.html">progress</a></li><li><a href="module-resumes.html">resumes</a></li><li><a href="module-Users.html">Users</a></li></ul><h3>Classes</h3><ul><li><a href="module-Add-Add.html">Add</a></li><li><a href="module-login.html">login</a></li><li><a href="module-Manage-Manage.html">Manage</a></li><li><a href="module-progress-progress.html">progress</a></li><li><a href="module-resumes-Resume.html">Resume</a></li><li><a href="module-Users-Users.html">Users</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Feb 23 2020 17:25:15 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
